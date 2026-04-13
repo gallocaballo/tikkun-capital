@@ -79,7 +79,7 @@ export async function POST(request: Request) {
         to: email.trim().toLowerCase(),
         replyTo: "danny@tikkun.capital",
         subject: "Thanks for reaching out",
-        text: `Hi ${firstName.trim()},\n\nThanks for reaching out — glad you found us.\n\nI'd love to hear a bit about what brought you to Tikkun Capital. Are you actively looking at real estate opportunities, or just starting to explore?\n\nEither way, happy to share more about our approach and what we have in the pipeline.\n\nDanny Greene\nPrincipal, Tikkun Capital\nhttps://tikkun.capital`,
+        text: `Hi ${firstName.trim()},\n\nThanks for reaching out — glad you found us.\n\nI'd love to hear a bit about what brought you to Tikkun Capital. Are you actively looking at real estate opportunities, or just starting to explore?\n\nEither way, happy to share more about our approach and what we have in the pipeline.\n\nDanny Greene\nManaging Partner, Tikkun Capital\nhttps://tikkun.capital`,
       });
     } catch (autoReplyError) {
       console.error("Auto-reply error:", autoReplyError);
