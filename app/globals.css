@@ -1,26 +1,152 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: #1B2432;
+  --bg-alt: #161E2B;
+  --bg-card: #212B3B;
+  --text: #F0EDE8;
+  --text-secondary: #A8B0BC;
+  --text-muted: #6B7689;
+  --accent: #C8916B;
+  --accent-light: #D9A57E;
+  --accent-bg: rgba(200, 145, 107, 0.06);
+  --accent-border: rgba(200, 145, 107, 0.18);
+  --border: rgba(240, 237, 232, 0.07);
+  --border-strong: rgba(240, 237, 232, 0.12);
+  --status-green: #7BBF8A;
+  --status-blue: #7BAED4;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; font-size: 16px; }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans), -apple-system, sans-serif;
+  font-weight: 300;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+::selection { background: var(--accent); color: #fff; }
+
+/* Nav */
+nav {
+  position: fixed; top: 0; width: 100%; z-index: 100;
+  padding: 1.25rem 3rem;
+  display: flex; justify-content: space-between; align-items: center;
+  transition: all 0.4s;
+}
+nav.scrolled {
+  background: rgba(27, 36, 50, 0.92);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-logo { font-family: var(--serif), Georgia, serif; font-size: 1.2rem; font-weight: 400; letter-spacing: 0.04em; color: var(--text); }
+.nav-links { display: flex; gap: 2.5rem; list-style: none; }
+.nav-links a { color: var(--text-secondary); text-decoration: none; font-size: 0.78rem; font-weight: 400; letter-spacing: 0.1em; text-transform: uppercase; transition: color 0.3s; }
+.nav-links a:hover { color: var(--accent); }
+
+/* Hero */
+.hero {
+  min-height: 100vh; display: flex; flex-direction: column; justify-content: center;
+  padding: 8rem 3rem 6rem; max-width: 900px;
+}
+.hero-eyebrow { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; color: var(--accent); margin-bottom: 2rem; opacity: 0; animation: fadeUp 0.8s 0.2s forwards; }
+.hero h1 { font-family: var(--serif), Georgia, serif; font-size: clamp(2.6rem, 5.5vw, 4.5rem); font-weight: 300; line-height: 1.18; margin-bottom: 2rem; opacity: 0; animation: fadeUp 0.8s 0.4s forwards; }
+.hero h1 em { font-style: italic; font-weight: 300; }
+.hero-sub { font-size: 1.05rem; color: var(--text-secondary); max-width: 540px; line-height: 1.85; margin-bottom: 3rem; opacity: 0; animation: fadeUp 0.8s 0.6s forwards; }
+.hero-line { width: 50px; height: 2px; background: var(--accent); opacity: 0; animation: fadeUp 0.8s 0.8s forwards; }
+
+/* Sections */
+section { padding: 6rem 3rem; }
+.section-inner { max-width: 1060px; margin: 0 auto; }
+.section-label { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.25em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.75rem; }
+.section-title { font-family: var(--serif), Georgia, serif; font-size: clamp(1.8rem, 3vw, 2.6rem); font-weight: 300; line-height: 1.25; margin-bottom: 1.25rem; }
+.section-desc { color: var(--text-secondary); max-width: 580px; font-size: 0.98rem; line-height: 1.8; margin-bottom: 3rem; }
+
+/* Thesis */
+.thesis { background: var(--bg-alt); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.thesis-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+.thesis-card { background: var(--bg-card); padding: 2.25rem; border: 1px solid var(--border); border-radius: 3px; transition: border-color 0.3s, box-shadow 0.3s; }
+.thesis-card:hover { border-color: var(--accent-border); box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2); }
+.thesis-card .num { font-family: var(--serif), Georgia, serif; font-size: 2rem; font-weight: 300; color: var(--accent); margin-bottom: 1rem; line-height: 1; }
+.thesis-card h3 { font-family: var(--serif), Georgia, serif; font-size: 1.2rem; font-weight: 400; margin-bottom: 0.75rem; }
+.thesis-card p { color: var(--text-secondary); font-size: 0.88rem; line-height: 1.75; }
+
+/* Stats */
+.stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-bottom: 3.5rem; padding-bottom: 3.5rem; border-bottom: 1px solid var(--border); }
+.stat { text-align: center; }
+.stat-value { font-family: var(--serif), Georgia, serif; font-size: clamp(2rem, 3.5vw, 2.8rem); font-weight: 300; color: var(--accent); line-height: 1.2; }
+.stat-label { font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); margin-top: 0.4rem; }
+
+/* Portfolio Table */
+.portfolio-table { width: 100%; border-collapse: collapse; }
+.portfolio-table thead th { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); text-align: left; padding: 0.85rem 1.25rem; border-bottom: 1px solid var(--border-strong); }
+.portfolio-table tbody tr { border-bottom: 1px solid var(--border); transition: background 0.2s; }
+.portfolio-table tbody tr:hover { background: var(--accent-bg); }
+.portfolio-table td { padding: 1.2rem 1.25rem; font-size: 0.92rem; vertical-align: middle; }
+.project-name { font-family: var(--serif), Georgia, serif; font-size: 1.05rem; font-weight: 400; }
+.project-sub { color: var(--text-muted); font-size: 0.78rem; margin-top: 0.15rem; }
+.status-badge { display: inline-block; padding: 0.2rem 0.65rem; font-size: 0.68rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; border-radius: 2px; }
+.status-closed { background: rgba(123, 191, 138, 0.1); color: var(--status-green); border: 1px solid rgba(123, 191, 138, 0.2); }
+.status-active { background: rgba(123, 174, 212, 0.1); color: var(--status-blue); border: 1px solid rgba(123, 174, 212, 0.2); }
+.status-funding { background: var(--accent-bg); color: var(--accent); border: 1px solid var(--accent-border); }
+
+/* About */
+.about { background: var(--bg-alt); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; }
+.about-text p { color: var(--text-secondary); font-size: 0.95rem; line-height: 1.85; margin-bottom: 1.25rem; }
+.about-aside h3 { font-family: var(--serif), Georgia, serif; font-size: 1.2rem; font-weight: 400; margin-bottom: 1.25rem; padding-bottom: 0.85rem; border-bottom: 1px solid var(--border-strong); }
+.partner-block { margin-bottom: 2rem; }
+.partner-block .name { font-weight: 500; font-size: 0.92rem; margin-bottom: 0.15rem; }
+.partner-block .firm { font-size: 0.82rem; color: var(--accent); margin-bottom: 0.3rem; }
+.partner-block .desc { font-size: 0.82rem; color: var(--text-muted); line-height: 1.6; }
+
+/* Meaning / Tikkun Olam */
+.meaning { padding: 6rem 3rem; display: flex; justify-content: center; }
+.meaning-inner { max-width: 640px; position: relative; padding-left: 2rem; border-left: 2px solid var(--accent); }
+.meaning-word { font-family: var(--serif), Georgia, serif; font-size: 1.4rem; font-weight: 400; color: var(--accent); margin-bottom: 0.75rem; font-style: italic; }
+.meaning blockquote { font-size: 1.05rem; line-height: 1.8; color: var(--text-secondary); margin-bottom: 0.5rem; }
+.meaning .note { font-size: 0.82rem; color: var(--text-muted); font-style: italic; }
+
+/* Contact */
+.contact { text-align: center; padding: 5rem 3rem 7rem; border-top: 1px solid var(--border); }
+.contact .section-desc { margin: 0 auto 2.5rem; text-align: center; }
+.contact-btn { display: inline-block; padding: 0.9rem 2.5rem; font-family: var(--sans), -apple-system, sans-serif; font-size: 0.78rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: #fff; background: var(--accent); border: none; text-decoration: none; cursor: pointer; border-radius: 2px; transition: background 0.3s, transform 0.2s; }
+.contact-btn:hover { background: var(--accent-light); transform: translateY(-1px); }
+
+/* Footer */
+footer { padding: 2.5rem 3rem; display: flex; justify-content: space-between; align-items: flex-start; border-top: 1px solid var(--border); gap: 3rem; }
+footer .logo { font-family: var(--serif), Georgia, serif; font-size: 0.95rem; color: var(--text-muted); white-space: nowrap; }
+footer .legal { font-size: 0.68rem; color: var(--text-muted); max-width: 520px; text-align: right; line-height: 1.65; }
+
+/* Dedication */
+.dedication { text-align: center; padding: 2.5rem 3rem 3rem; border-top: 1px solid var(--border); }
+.dedication p { font-family: var(--serif), Georgia, serif; font-style: italic; font-weight: 300; font-size: 0.88rem; color: var(--text-muted); letter-spacing: 0.01em; }
+.dedication .name { font-style: italic; font-weight: 400; color: var(--accent); }
+
+/* Animations */
+@keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+.reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.65s ease, transform 0.65s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* Responsive */
+@media (max-width: 900px) {
+  nav { padding: 1.1rem 1.5rem; }
+  .nav-links { display: none; }
+  section { padding: 4.5rem 1.5rem; }
+  .hero { padding: 7rem 1.5rem 5rem; }
+  .thesis-grid { grid-template-columns: 1fr; gap: 1.25rem; }
+  .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+  footer { flex-direction: column; gap: 1.5rem; }
+  footer .legal { text-align: left; }
+}
+@media (max-width: 600px) {
+  .stats-row { grid-template-columns: 1fr; gap: 1.5rem; }
+  .portfolio-table .hide-mobile { display: none; }
+  .portfolio-table td { padding: 1rem 0.65rem; }
+  .portfolio-table thead th { padding: 0.75rem 0.65rem; }
 }
