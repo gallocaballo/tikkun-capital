@@ -75,11 +75,11 @@ export async function POST(request: Request) {
     // Send auto-reply to the person who submitted the form
     try {
       await resend.emails.send({
-        from: "danny@tikkun.capital",
+        from: "Danny Greene <danny@tikkun.capital>",
         to: email.trim().toLowerCase(),
         replyTo: "danny@tikkun.capital",
         subject: "Thanks for reaching out",
-        text: `Hi ${firstName.trim()},\n\nThanks for reaching out — glad you found us.\n\nI'd love to hear a bit about what brought you to Tikkun Capital. Are you actively looking at real estate opportunities, or just starting to explore?\n\nEither way, happy to share more about our approach and what we have in the pipeline.\n\nDanny Greene\nPrincipal, Tikkun Capital\ntikkun.capital`,
+        text: `Hi ${firstName.trim()},\n\nThanks for reaching out — glad you found us.\n\nI'd love to hear a bit about what brought you to Tikkun Capital. Are you actively looking at real estate opportunities, or just starting to explore?\n\nEither way, happy to share more about our approach and what we have in the pipeline.\n\nDanny Greene\nPrincipal, Tikkun Capital\nhttps://tikkun.capital`,
       });
     } catch (autoReplyError) {
       console.error("Auto-reply error:", autoReplyError);
