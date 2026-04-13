@@ -70,7 +70,19 @@ export async function POST(request: Request) {
 
     if (emailError) {
       console.error("Resend error:", emailError);
-      // Don't fail the request — contact was saved, email is secondary
+    }
+
+    // Send auto-reply to the person who submitted the form
+    try {
+      await resend.emails.send({
+        from: "danny@tikkun.capital",
+        to: email.trim().toLowerCase(),
+        replyTo: "danny@tikkun.capital",
+        subject: "Thanks for reaching out",
+        text: `Hi ${firstName.trim()},\n\nThanks for reaching out — glad you found us.\n\nI'd love to hear a bit about what brought you to Tikkun Capital. Are you actively looking at real estate opportunities, or just starting to explore?\n\nEither way, happy to share more about our approach and what we have in the pipeline.\n\nDanny Greene\nPrincipal, Tikkun Capital\ntikkun.capital`,
+      });
+    } catch (autoReplyError) {
+      console.error("Auto-reply error:", autoReplyError);
     }
 
     return NextResponse.json({ success: true });
