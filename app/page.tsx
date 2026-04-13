@@ -81,13 +81,13 @@ export default function Home() {
 
       {/* Hero */}
       <section className="hero">
-        <div className="hero-eyebrow">Real Estate Investment Syndication</div>
+        <div className="hero-eyebrow">Real Estate Investment Fund</div>
         <h1>Building wealth through <em>trusted</em> partnerships</h1>
         <p className="hero-sub">
-          Since 2017, Tikkun Capital has syndicated real estate development
-          opportunities for a select group of investors, delivering consistent
-          returns through disciplined underwriting and long-term developer
-          relationships.
+          Since 2017, Tikkun Capital has invested in real estate development
+          opportunities on behalf of a select group of investors, delivering
+          consistent returns through disciplined underwriting and long-term
+          developer relationships.
         </p>
         <div className="hero-line"></div>
       </section>
