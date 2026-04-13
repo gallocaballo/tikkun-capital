@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function Home() {
   useEffect(() => {
@@ -31,11 +31,39 @@ export default function Home() {
     };
   }, []);
 
-  const handleContact = (e: React.MouseEvent<HTMLAnchorElement>) => {
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    message: "",
+    optedIn: true,
+  });
+  const [formStatus, setFormStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
+  const [formError, setFormError] = useState("");
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const u = "danny.greene";
-    const d = "gmail.com";
-    window.location.href = "mai" + "lto:" + u + "@" + d;
+    setFormStatus("submitting");
+    setFormError("");
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.error || "Something went wrong.");
+      }
+
+      setFormStatus("success");
+    } catch (err) {
+      setFormStatus("error");
+      setFormError(err instanceof Error ? err.message : "Something went wrong.");
+    }
   };
 
   return (
@@ -276,9 +304,84 @@ export default function Home() {
           investors. If you&apos;d like to discuss current or upcoming
           opportunities, we&apos;d welcome the conversation.
         </p>
-        <a href="#" onClick={handleContact} className="contact-btn reveal">
-          Request Information
-        </a>
+
+        {formStatus === "success" ? (
+          <div className="form-success reveal visible">
+            <p>Thank you. Danny will be in touch shortly.</p>
+          </div>
+        ) : (
+          <form className="contact-form reveal" onSubmit={handleSubmit}>
+            <div className="form-row">
+              <div className="form-field">
+                <label htmlFor="firstName">First name *</label>
+                <input
+                  id="firstName"
+                  type="text"
+                  required
+                  value={formData.firstName}
+                  onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
+                />
+              </div>
+              <div className="form-field">
+                <label htmlFor="lastName">Last name *</label>
+                <input
+                  id="lastName"
+                  type="text"
+                  required
+                  value={formData.lastName}
+                  onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
+                />
+              </div>
+            </div>
+            <div className="form-row">
+              <div className="form-field">
+                <label htmlFor="email">Email *</label>
+                <input
+                  id="email"
+                  type="email"
+                  required
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                />
+              </div>
+              <div className="form-field">
+                <label htmlFor="phone">Phone</label>
+                <input
+                  id="phone"
+                  type="tel"
+                  value={formData.phone}
+                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                />
+              </div>
+            </div>
+            <div className="form-field">
+              <label htmlFor="message">Message</label>
+              <textarea
+                id="message"
+                rows={4}
+                value={formData.message}
+                onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+              />
+            </div>
+            <div className="form-checkbox">
+              <input
+                id="optedIn"
+                type="checkbox"
+                checked={formData.optedIn}
+                onChange={(e) => setFormData({ ...formData, optedIn: e.target.checked })}
+              />
+              <label htmlFor="optedIn">
+                I&apos;d like to receive updates on current and future investment opportunities
+              </label>
+            </div>
+            {formStatus === "error" && (
+              <div className="form-error">{formError}</div>
+            )}
+            <button type="submit" className="contact-btn" disabled={formStatus === "submitting"}>
+              {formStatus === "submitting" ? "Sending..." : "Request Information"}
+            </button>
+          </form>
+        )}
       </section>
 
       {/* Footer */}
